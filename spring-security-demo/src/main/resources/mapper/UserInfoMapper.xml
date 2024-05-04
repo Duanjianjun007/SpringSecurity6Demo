@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.akali.security.mapper.UserInfoMapper">
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT
+            id,
+            username,
+            `password`,
+            gender,
+            email,
+            phone_number,
+            create_time,
+            update_time
+        FROM
+            user_info
+        WHERE
+            id = #{id}
+    </select>
+
+    <resultMap id="BaseResultMap" type="com.akali.security.model.entity.rbac.UserInfo">
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="gender" property="gender"/>
+        <result column="email" property="email"/>
+        <result column="phone_number" property="phoneNumber"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <collection property="permissionCodes" ofType="java.lang.String">
+            <result column="permission_code"/>
+        </collection>
+    </resultMap>
+
+    <select id="findByUsername" resultMap="BaseResultMap">
+        SELECT
+            a.id,
+            a.username,
+            a.`password`,
+            a.gender,
+            a.email,
+            a.phone_number,
+            a.create_time,
+            a.update_time,
+            d.permission_code
+        FROM
+            user_info a
+                LEFT JOIN user_role b ON b.user_id = a.id
+                LEFT JOIN role_menu c ON c.role_id = b.role_id
+                LEFT JOIN menu_info d ON d.id = c.menu_id
+        WHERE
+            a.username = #{username}
+    </select>
+</mapper>
