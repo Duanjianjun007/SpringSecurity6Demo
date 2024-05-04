@@ -1,0 +1,2 @@
+# SpringSecurity6Demo
+个人学习SpringSecurity6的demo项目，包含了使用注解方案进行权限控制的示例代码，以及常见的权限控制模型RBAC的应用
